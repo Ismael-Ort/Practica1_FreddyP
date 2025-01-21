@@ -1,0 +1,84 @@
+//Ismael Ortega: 10145335
+//Yeremy Veloz: 10143628
+
+/*
+ * Es complejidad O(N log log N), porque por ejemplo, si N = 20 , el algoritmo inicialmente consedera
+ * que todos los números entre 2 y 20 son primos. Comienza con p = 2 y marca sus múltiplos 4, 6, 8...., 20
+ * como no primos. Luego, pasa al siguiente número que sí es primo p = 3 y "elimina" 9, 12, 15 y 18. 
+ * Este proceso continúa hasta p^2 > N. Lo importante es que cada número compuesto se marca solo una vez,
+ * utilizando su menor factor primo. Debido a esto pensamos que es dicha complejidad. Este crecimiento es mucho
+ * más lento que log N, esto hace que N log log N marque los múltiplos de cada número primo en un único paso.
+ * 
+ * En cuanto a la complejidad espacial, ocupa 
+ * O(N) debido al uso de un arreglo booleano para marcar los números primos y una lista para almacenar 
+ * los primos encontrados. En resumen, es un método eficaz y comúnmente utilizado para encontrar 
+ * números primos en un rango determinado.
+ *
+ * */
+
+package logico;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class CribaEratostenes {
+	
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Ingrese el valor de N: ");
+        int n = scanner.nextInt();
+        
+        ArrayList<Integer> primos = generarPrimos(n);
+        
+        if (n < 2) {
+            System.out.println("No hay números primos menores que 2.");
+            return;
+        }
+        System.out.println("Números primos hasta " + n + ": " + primos);
+    }
+
+    public static ArrayList<Integer> generarPrimos(int n) {
+ 
+        boolean[] esPrimo = new boolean[n + 1];
+        ArrayList<Integer> primos = new ArrayList<>();
+        boolean marcado = true;
+        boolean nomarcado = false;
+        
+        long timepoInicio = System.nanoTime();
+
+        for (int i = 2; i <= n; i++) {
+            esPrimo[i] = marcado;
+        }
+
+
+        for (int p = 2; p * p <= n; p++) {
+            if (esPrimo[p]) {
+            	
+            	for (p = 2; p * p <= n; p++) {
+            	    if (esPrimo[p]) {
+            	        int cuadrado = p * p; 
+            	        while (cuadrado <= n) {
+            	            esPrimo[cuadrado] = nomarcado; 
+            	            cuadrado += p; 
+            	        }
+            	    }
+            	}
+
+            }
+        }
+        
+        long timepoFin = System.nanoTime();
+        
+        long duracion = timepoFin - timepoInicio;
+        System.out.println("Tiempo de ejecución (nanosegundos): " + duracion);
+
+        for (int i = 2; i <= n; i++) {
+            if (esPrimo[i]) {
+                primos.add(i);
+            }
+        }
+
+        return primos;
+    }
+}
