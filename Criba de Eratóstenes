@@ -2,7 +2,7 @@
 //Yeremy Veloz: 10143628
 
 /*
- * Es complejidad O(N log log N), porque por ejemplo, si N = 20 , el algoritmo inicialmente consedera
+ * Es complejidad O(N log log N), porque por ejemplo, si N = 20 , el algoritmo inicialmente considera
  * que todos los números entre 2 y 20 son primos. Comienza con p = 2 y marca sus múltiplos 4, 6, 8...., 20
  * como no primos. Luego, pasa al siguiente número que sí es primo p = 3 y "elimina" 9, 12, 15 y 18. 
  * Este proceso continúa hasta p^2 > N. Lo importante es que cada número compuesto se marca solo una vez,
